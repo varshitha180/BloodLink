@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import bcrypt
 import jwt
@@ -9,6 +10,14 @@ import models, schemas
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 SECRET_KEY = "bloodlink_super_secret_key_123"
 ALGORITHM = "HS256"
@@ -71,7 +80,7 @@ def create_donor_profile(profile_data: schemas.DonorProfileCreate, db: Session =
     if current_user.role != "DONOR": raise HTTPException(status_code=403, detail="Only donors allowed")
     existing = db.query(models.DonorProfile).filter(models.DonorProfile.user_id == current_user.id).first()
     if existing: raise HTTPException(status_code=400, detail="Profile exists")
-    new_profile = models.DonorProfile(user_id=current_user.id, blood_group=profile_data.blood_group.upper(), location=profile_data.location, availability=profile_data.availability)
+    new_profile = models.DonorProfile(user_id=current_user.id, blood_group=profile_data.blood_group.upper(), location=profile_data.location, availability=profile_data.availability, last_donation_date=profile_data.last_donation_date)
     db.add(new_profile)
     db.commit()
     db.refresh(new_profile)
@@ -98,3 +107,69 @@ def create_bloodbank_profile(profile_data: schemas.BloodBankProfileCreate, db: S
     db.commit()
     db.refresh(new_profile)
     return {"message": "Blood Bank profile created", "name": new_profile.bank_name}
+
+# --- INVENTORY ROUTE (NEW) ---
+@app.post("/api/v1/inventory/update")
+def update_inventory(inv_data: schemas.InventoryUpdate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    if current_user.role != "BLOOD_BANK": raise HTTPException(status_code=403, detail="Only blood banks can update inventory")
+    
+    # Find existing stock for this bank and blood group
+    existing_inv = db.query(models.BloodInventory).filter(
+        models.BloodInventory.bank_id == current_user.id,
+        models.BloodInventory.blood_group == inv_data.blood_group.upper()
+    ).first()
+
+    if existing_inv:
+        # Update existing
+        existing_inv.units_available = inv_data.units
+        existing_inv.last_updated = datetime.utcnow()
+        db.commit()
+        return {"message": "Inventory updated", "blood_group": existing_inv.blood_group, "new_total": existing_inv.units_available}
+    else:
+        # Create new
+        new_inv = models.BloodInventory(bank_id=current_user.id, blood_group=inv_data.blood_group.upper(), units_available=inv_data.units)
+        db.add(new_inv)
+        db.commit()
+        return {"message": "Inventory created", "blood_group": new_inv.blood_group, "total": new_inv.units_available}
+
+# --- BLOOD REQUEST & MATCHING LOGIC (NEW) ---
+@app.post("/api/v1/requests", response_model=schemas.RequestResponse)
+def create_blood_request(req_data: schemas.RequestCreate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
+    if current_user.role != "HOSPITAL": raise HTTPException(status_code=403, detail="Only hospitals can request blood")
+
+    # 1. Create the request in DB
+    new_request = models.BloodRequest(
+        hospital_id=current_user.id,
+        blood_group=req_data.blood_group.upper(),
+        units_required=req_data.units_required,
+        urgency=req_data.urgency.upper(),
+        location=req_data.location
+    )
+    db.add(new_request)
+    db.commit()
+    db.refresh(new_request)
+
+    # 2. RUN MATCHING LOGIC (Find Eligible Donors)
+    three_months_ago = datetime.utcnow() - timedelta(days=90)
+    
+    matched_donors = db.query(models.DonorProfile).filter(
+        models.DonorProfile.blood_group == new_request.blood_group,
+        models.DonorProfile.availability == True,
+        (models.DonorProfile.last_donation_date == None) | (models.DonorProfile.last_donation_date <= three_months_ago)
+    ).all()
+
+    # 3. Format the response
+    matched_list = []
+    for donor in matched_donors:
+        matched_list.append(schemas.MatchedDonor(
+            donor_id=str(donor.user_id),
+            blood_group=donor.blood_group,
+            location=donor.location,
+            last_donation=donor.last_donation_date
+        ))
+
+    return schemas.RequestResponse(
+        request_id=str(new_request.id),
+        status="MATCHED" if matched_list else "PENDING",
+        matched_donors=matched_list
+    )

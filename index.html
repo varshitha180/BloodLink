@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BloodLink AI - Test</title>
+    <style>
+        body { font-family: Arial; padding: 40px; background: #f4f4f4; }
+        .card { background: white; padding: 20px; border-radius: 8px; max-width: 400px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input, select, button { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; }
+        button { background: #e63946; color: white; border: none; font-weight: bold; cursor: pointer; }
+        #result { margin-top: 20px; padding: 10px; background: #e8f5e9; border: 1px solid #c8e6c9; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>BloodLink Register</h2>
+    
+    <input type="email" id="email" placeholder="Email (e.g., test@test.com)">
+    <input type="password" id="password" placeholder="Password">
+    <select id="role">
+        <option value="DONOR">Donor</option>
+        <option value="HOSPITAL">Hospital</option>
+        <option value="B&LOOD_BANK">Blood Bank</option>
+    </select>
+    
+    <button onclick="registerUser()">Register</button>
+    
+    <div id="result"></div>
+</div>
+
+<script>
+    
+    const API_URL = "http://127.0.0.1:8000";
+
+    async function registerUser() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const role = document.getElementById('role').value;
+
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+        resultDiv.innerText = "Loading...";
+
+        try {
+            // This is the FETCH request (Same logic your teammate will use in Flutter)
+            const response = await fetch(`${API_URL}/api/v1/auth/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    role: role
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                resultDiv.innerText = "SUCCESS! User ID: " + data.id;
+                resultDiv.style.background = "#e8f5e9";
+            } else {
+                resultDiv.innerText = "ERROR: " + data.detail;
+                resultDiv.style.background = "#ffebee";
+            }
+
+        } catch (error) {
+            resultDiv.innerText = "NETWORK ERROR: Is the server running?";
+            resultDiv.style.background = "#ffebee";
+        }
+    }
+</script>
+
+</body>
+</html>
