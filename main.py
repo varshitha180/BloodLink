@@ -7,6 +7,17 @@ import jwt
 from datetime import datetime, timedelta
 from database import engine, Base, get_db
 import models, schemas
+from openai import OpenAI # UPDATED IMPORT
+from dotenv import load_dotenv
+import os
+
+load_dotenv() # This reads the .env file
+# --- GROQ AI SETUP (NEW) ---
+# --- GROQ AI SETUP ---
+groq_client = OpenAI(
+    api_key=os.getenv("GROQ_API_KEY"), # Reads from .env file
+    base_url="https://api.groq.com/openai/v1"
+)
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
@@ -108,36 +119,63 @@ def create_bloodbank_profile(profile_data: schemas.BloodBankProfileCreate, db: S
     db.refresh(new_profile)
     return {"message": "Blood Bank profile created", "name": new_profile.bank_name}
 
-# --- INVENTORY ROUTE (NEW) ---
+# --- INVENTORY ROUTE ---
 @app.post("/api/v1/inventory/update")
 def update_inventory(inv_data: schemas.InventoryUpdate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     if current_user.role != "BLOOD_BANK": raise HTTPException(status_code=403, detail="Only blood banks can update inventory")
-    
-    # Find existing stock for this bank and blood group
     existing_inv = db.query(models.BloodInventory).filter(
         models.BloodInventory.bank_id == current_user.id,
         models.BloodInventory.blood_group == inv_data.blood_group.upper()
     ).first()
 
     if existing_inv:
-        # Update existing
         existing_inv.units_available = inv_data.units
         existing_inv.last_updated = datetime.utcnow()
         db.commit()
         return {"message": "Inventory updated", "blood_group": existing_inv.blood_group, "new_total": existing_inv.units_available}
     else:
-        # Create new
         new_inv = models.BloodInventory(bank_id=current_user.id, blood_group=inv_data.blood_group.upper(), units_available=inv_data.units)
         db.add(new_inv)
         db.commit()
         return {"message": "Inventory created", "blood_group": new_inv.blood_group, "total": new_inv.units_available}
 
-# --- BLOOD REQUEST & MATCHING LOGIC (NEW) ---
+# --- AI NATURAL LANGUAGE PARSER (UPDATED FOR GROQ) ---
+@app.post("/api/v1/requests/parse")
+def parse_natural_request(request_data: schemas.NaturalLanguageRequest):
+    """
+    Takes messy doctor notes and uses Groq LLM to extract structured data.
+    """
+    prompt = f"""
+    A doctor is requesting blood. Extract the following information from this text: 
+    '{request_data.text}'
+    
+    Return the result as a JSON object with these keys:
+    - "blood_group" (string, e.g., "O+", "A-")
+    - "units_required" (integer)
+    - "urgency" (string, either "HIGH" or "NORMAL")
+    
+    If you cannot find a value, use null.
+    """
+
+    try:
+        # CALLING GROQ INSTEAD OF OPENAI
+        response = groq_client.chat.completions.create(
+            model="llama3-8b-8192", # Groq's fast Llama3 model
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.0 
+        )
+        
+        ai_response_text = response.choices[0].message.content
+        return {"ai_parsed_data": ai_response_text, "original_text": request_data.text}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"AI Parsing failed: {str(e)}")
+
+# --- BLOOD REQUEST & MATCHING LOGIC ---
 @app.post("/api/v1/requests", response_model=schemas.RequestResponse)
 def create_blood_request(req_data: schemas.RequestCreate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     if current_user.role != "HOSPITAL": raise HTTPException(status_code=403, detail="Only hospitals can request blood")
 
-    # 1. Create the request in DB
     new_request = models.BloodRequest(
         hospital_id=current_user.id,
         blood_group=req_data.blood_group.upper(),
@@ -149,7 +187,6 @@ def create_blood_request(req_data: schemas.RequestCreate, db: Session = Depends(
     db.commit()
     db.refresh(new_request)
 
-    # 2. RUN MATCHING LOGIC (Find Eligible Donors)
     three_months_ago = datetime.utcnow() - timedelta(days=90)
     
     matched_donors = db.query(models.DonorProfile).filter(
@@ -158,7 +195,6 @@ def create_blood_request(req_data: schemas.RequestCreate, db: Session = Depends(
         (models.DonorProfile.last_donation_date == None) | (models.DonorProfile.last_donation_date <= three_months_ago)
     ).all()
 
-    # 3. Format the response
     matched_list = []
     for donor in matched_donors:
         matched_list.append(schemas.MatchedDonor(
