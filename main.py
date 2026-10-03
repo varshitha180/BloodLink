@@ -7,16 +7,14 @@ import jwt
 from datetime import datetime, timedelta
 from database import engine, Base, get_db
 import models, schemas
-from openai import OpenAI # UPDATED IMPORT
+from groq import Groq
 from dotenv import load_dotenv
 import os
 
-load_dotenv() # This reads the .env file
-# --- GROQ AI SETUP (NEW) ---
-# --- GROQ AI SETUP ---
-groq_client = OpenAI(
-    api_key=os.getenv("GROQ_API_KEY"), # Reads from .env file
-    base_url="https://api.groq.com/openai/v1"
+load_dotenv()
+
+groq_client = Groq(
+    api_key=os.getenv("GROQ_API_KEY"),
 )
 
 Base.metadata.create_all(bind=engine)
