@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hospital Dashboard - BloodLink</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+
+        <div class="logo">
+            🩸 Blood<span>Link</span>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="find-blood.html">Find Blood</a>
+            <a href="hospital.html">Dashboard</a>
+            <a href="profile.html">Profile</a>
+        </nav>
+
+        <div class="nav-buttons">
+            <a href="login.html" class="login-btn">Logout</a>
+        </div>
+
+    </header>
+
+
+    <!-- Hospital Dashboard -->
+    <section class="dashboard-section">
+
+        <div class="dashboard-container">
+
+            <!-- Welcome -->
+            <div class="dashboard-header">
+
+                <div>
+                    <h1>Welcome, Hospital 👋</h1>
+
+                    <p>
+                        Manage blood requirements and find available blood
+                        for your patients.
+                    </p>
+                </div>
+
+                <div class="dashboard-blood">
+                    🏥
+                    <span>Hospital</span>
+                </div>
+
+            </div>
+
+
+            <!-- Summary Cards -->
+            <div class="dashboard-cards">
+
+                <div class="dashboard-card">
+
+                    <div class="card-icon">
+                        🩸
+                    </div>
+
+                    <h3>Blood Requests</h3>
+
+                    <p class="card-value">
+                        3
+                    </p>
+
+                    <span>Active requests</span>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <div class="card-icon">
+                        ⏳
+                    </div>
+
+                    <h3>Pending Requests</h3>
+
+                    <p class="card-value">
+                        1
+                    </p>
+
+                    <span>Waiting for response</span>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <div class="card-icon">
+                        ✅
+                    </div>
+
+                    <h3>Completed</h3>
+
+                    <p class="card-value">
+                        5
+                    </p>
+
+                    <span>Completed requests</span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Main Actions -->
+            <div class="dashboard-grid">
+
+                <div class="dashboard-box">
+
+                    <h2>Request Blood</h2>
+
+                    <p>
+                        Create a new blood request for patients who need
+                        urgent blood support.
+                    </p>
+
+                    <a href="request-blood.html"
+                       class="dashboard-button">
+                        🩸 Request Blood
+                    </a>
+
+                </div>
+
+
+                <div class="dashboard-box">
+
+                    <h2>Find Available Blood</h2>
+
+                    <p>
+                        Search for available blood groups and blood units
+                        near your hospital.
+                    </p>
+
+                    <a href="find-blood.html"
+                       class="dashboard-button">
+                        🔍 Find Blood
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Hospital Information -->
+            <div class="dashboard-box">
+
+                <h2>Hospital Information</h2>
+
+                <div class="info-row">
+                    <span>Hospital Name</span>
+                    <strong>City Care Hospital</strong>
+                </div>
+
+                <div class="info-row">
+                    <span>Email</span>
+                    <strong>hospital@email.com</strong>
+                </div>
+
+                <div class="info-row">
+                    <span>Location</span>
+                    <strong>Hyderabad</strong>
+                </div>
+
+                <div class="info-row">
+                    <span>Account Type</span>
+                    <strong>Hospital</strong>
+                </div>
+
+                <a href="profile.html"
+                   class="dashboard-button">
+                    View Profile
+                </a>
+
+            </div>
+
+
+            <!-- Recent Requests -->
+            <div class="dashboard-box requests-box">
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>Recent Blood Requests</h2>
+
+                        <p>
+                            Track your recent blood requirements.
+                        </p>
+                    </div>
+
+                    <a href="request-blood.html">
+                        New Request
+                    </a>
+
+                </div>
+
+
+                <div class="request-item">
+
+                    <div>
+
+                        <h3>Urgent Blood Requirement</h3>
+
+                        <p>
+                            Blood Group:
+                            <strong>O+</strong>
+                        </p>
+
+                        <span>
+                            2 Units Required
+                        </span>
+
+                    </div>
+
+                    <span class="request-status pending">
+                        Pending
+                    </span>
+
+                </div>
+
+
+                <div class="request-item">
+
+                    <div>
+
+                        <h3>Patient Blood Requirement</h3>
+
+                        <p>
+                            Blood Group:
+                            <strong>A+</strong>
+                        </p>
+
+                        <span>
+                            1 Unit Required
+                        </span>
+
+                    </div>
+
+                    <span class="request-status completed">
+                        Completed
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+
+        <p>
+            © 2026 BloodLink. Donate Blood. Save Lives.
+        </p>
+    </footer>
+
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>

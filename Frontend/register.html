@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register - BloodLink</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+
+        <div class="logo">
+            🩸 Blood<span>Link</span>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="#">Find Blood</a>
+            <a href="#">Donate</a>
+            <a href="#">About</a>
+        </nav>
+
+        <div class="nav-buttons">
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="register.html" class="register-btn">Register</a>
+        </div>
+
+    </header>
+
+
+    <!-- Register Section -->
+    <section class="auth-section">
+
+        <div class="auth-card">
+
+            <div class="auth-icon">
+                🩸
+            </div>
+
+            <h1>Create Account</h1>
+
+            <p class="auth-subtitle">
+                Join BloodLink and help save lives
+            </p>
+
+
+            <form id="registerForm">
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+                </div>
+
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Create a password"
+                        required
+                    >
+                </div>
+
+
+                <!-- Role -->
+                <div class="form-group">
+                    <label for="role">Register As</label>
+
+                    <select id="role" required>
+
+                        <option value="" disabled selected>
+                            Select your role
+                        </option>
+
+                        <option value="donor">
+                            Donor
+                        </option>
+
+                        <option value="hospital">
+                            Hospital
+                        </option>
+
+                        <option value="bloodbank">
+                            Blood Bank
+                        </option>
+
+                    </select>
+                </div>
+
+
+                <!-- Button -->
+                <button type="submit" class="auth-button">
+                    Create Account
+                </button>
+
+            </form>
+
+
+            <p class="auth-bottom">
+                Already have an account?
+                <a href="login.html">Login here</a>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>

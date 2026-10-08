@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Blood Inventory - BloodLink</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+
+        <div class="logo">
+            🩸 Blood<span>Link</span>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="find-blood.html">Find Blood</a>
+            <a href="bloodbank.html">Dashboard</a>
+            <a href="profile.html">Profile</a>
+        </nav>
+
+        <div class="nav-buttons">
+            <a href="login.html" class="login-btn">Logout</a>
+        </div>
+
+    </header>
+
+
+    <!-- Inventory Section -->
+    <section class="dashboard-section">
+
+        <div class="dashboard-container">
+
+            <!-- Page Header -->
+            <div class="dashboard-header">
+
+                <div>
+                    <h1>Blood Inventory 🩸</h1>
+
+                    <p>
+                        View and manage the blood units currently
+                        available in the blood bank.
+                    </p>
+                </div>
+
+                <div class="dashboard-blood">
+                    🏥
+                    <span>Blood Bank</span>
+                </div>
+
+            </div>
+
+
+            <!-- Inventory Summary -->
+            <div class="dashboard-cards">
+
+                <div class="dashboard-card">
+
+                    <div class="card-icon">
+                        🩸
+                    </div>
+
+                    <h3>Total Units</h3>
+
+                    <p class="card-value">
+                        120
+                    </p>
+
+                    <span>All blood groups</span>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <div class="card-icon">
+                        ✅
+                    </div>
+
+                    <h3>Available</h3>
+
+                    <p class="card-value">
+                        110
+                    </p>
+
+                    <span>Ready for use</span>
+
+                </div>
+
+
+                <div class="dashboard-card">
+
+                    <div class="card-icon">
+                        ⚠️
+                    </div>
+
+                    <h3>Low Stock</h3>
+
+                    <p class="card-value">
+                        2
+                    </p>
+
+                    <span>Groups need attention</span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Inventory Table -->
+            <div class="dashboard-box">
+
+                <h2>Blood Stock</h2>
+
+                <p>
+                    Current availability of each blood group.
+                </p>
+
+
+                <div class="inventory-table">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Blood Group</th>
+                                <th>Available Units</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+                                <td><strong>A+</strong></td>
+                                <td>25 Units</td>
+                                <td>
+                                    <span class="stock-status available">
+                                        Available
+                                    </span>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td><strong>A-</strong></td>
+                                <td>10 Units</td>
+                                <td>
+                                    <span class="stock-status available">
+                                        Available
+                                    </span>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td><strong>B+</strong></td>
+                                <td>30 Units</td>
+                                <td>
+                                    <span class="stock-status available">
+                                        Available
+                                    </span>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td><strong>B-</strong></td>
+                                <td>8 Units</td>
+                                <td>
+                                    <span class="stock-status low">
+                                        Low Stock
+                                    </span>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td><strong>AB+</strong></td>
+                                <td>15 Units</td>
+                                <td>
+                                    <span class="stock-status available">
+                                        Available
+                                    </span>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td><strong>AB-</strong></td>
+                                <td>5 Units</td>
+                                <td>
+                                    <span class="stock-status low">
+                                        Low Stock
+                                    </span>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td><strong>O+</strong></td>
+                                <td>20 Units</td>
+                                <td>
+                                    <span class="stock-status available">
+                                        Available
+                                    </span>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td><strong>O-</strong></td>
+                                <td>7 Units</td>
+                                <td>
+                                    <span class="stock-status low">
+                                        Low Stock
+                                    </span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- Inventory Information -->
+            <div class="dashboard-box">
+
+                <h2>Inventory Information</h2>
+
+                <div class="info-row">
+                    <span>Blood Bank</span>
+                    <strong>City Blood Bank</strong>
+                </div>
+
+                <div class="info-row">
+                    <span>Location</span>
+                    <strong>Hyderabad</strong>
+                </div>
+
+                <div class="info-row">
+                    <span>Last Updated</span>
+                    <strong>Today</strong>
+                </div>
+
+                <div class="info-row">
+                    <span>Total Blood Groups</span>
+                    <strong>8</strong>
+                </div>
+
+            </div>
+
+
+            <!-- Back Button -->
+            <div style="text-align: center; margin-top: 25px;">
+
+                <a href="bloodbank.html"
+                   class="dashboard-button">
+                    ← Back to Blood Bank Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+
+        <p>
+            © 2026 BloodLink. Donate Blood. Save Lives.
+        </p>
+
+    </footer>
+
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>

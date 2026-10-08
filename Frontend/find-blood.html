@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Find Blood - BloodLink</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+
+        <div class="logo">
+            🩸 Blood<span>Link</span>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="find-blood.html">Find Blood</a>
+            <a href="donor.html">Dashboard</a>
+            <a href="profile.html">Profile</a>
+        </nav>
+
+        <div class="nav-buttons">
+            <a href="login.html" class="login-btn">Logout</a>
+        </div>
+
+    </header>
+
+
+    <!-- Find Blood Section -->
+    <section class="find-blood-section">
+
+        <div class="find-blood-container">
+
+            <!-- Page Heading -->
+            <div class="page-heading">
+
+                <div class="blood-icon">
+                    🩸
+                </div>
+
+                <h1>Find Blood</h1>
+
+                <p>
+                    Search for available blood and help save lives.
+                </p>
+
+            </div>
+
+
+            <!-- Search Box -->
+            <div class="blood-search-box">
+
+                <h2>Search Blood Availability</h2>
+
+                <p>
+                    Enter the required details to find available blood.
+                </p>
+
+
+                <form id="bloodSearchForm">
+
+                    <div class="search-fields">
+
+                        <!-- Blood Group -->
+                        <div class="form-group">
+
+                            <label for="bloodGroup">
+                                Blood Group
+                            </label>
+
+                            <select id="bloodGroup" required>
+
+                                <option value="" disabled selected>
+                                    Select Blood Group
+                                </option>
+
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- Location -->
+                        <div class="form-group">
+
+                            <label for="location">
+                                Location
+                            </label>
+
+                            <input
+                                type="text"
+                                id="location"
+                                placeholder="Enter city or location"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- Search Button -->
+                        <button
+                            type="submit"
+                            class="search-button"
+                        >
+                            🔍 Search Blood
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- Results -->
+            <div class="blood-results">
+
+                <div class="results-heading">
+
+                    <div>
+                        <h2>Available Blood</h2>
+
+                        <p>
+                            Blood availability near your selected location.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- Blood Card 1 -->
+                <div class="blood-result-card">
+
+                    <div class="blood-type">
+
+                        <div class="blood-circle">
+                            A+
+                        </div>
+
+                    </div>
+
+
+                    <div class="blood-details">
+
+                        <h3>A+ Blood</h3>
+
+                        <p>
+                            📍 Hyderabad
+                        </p>
+
+                        <span class="availability">
+                            Available
+                        </span>
+
+                    </div>
+
+
+                    <div class="blood-units">
+
+                        <strong>5</strong>
+
+                        <span>
+                            Units Available
+                        </span>
+
+                    </div>
+
+
+                    <button class="request-button">
+                        Request Blood
+                    </button>
+
+                </div>
+
+
+                <!-- Blood Card 2 -->
+                <div class="blood-result-card">
+
+                    <div class="blood-type">
+
+                        <div class="blood-circle">
+                            O+
+                        </div>
+
+                    </div>
+
+
+                    <div class="blood-details">
+
+                        <h3>O+ Blood</h3>
+
+                        <p>
+                            📍 Hyderabad
+                        </p>
+
+                        <span class="availability">
+                            Available
+                        </span>
+
+                    </div>
+
+
+                    <div class="blood-units">
+
+                        <strong>8</strong>
+
+                        <span>
+                            Units Available
+                        </span>
+
+                    </div>
+
+
+                    <button class="request-button">
+                        Request Blood
+                    </button>
+
+                </div>
+
+
+                <!-- Blood Card 3 -->
+                <div class="blood-result-card">
+
+                    <div class="blood-type">
+
+                        <div class="blood-circle">
+                            B+
+                        </div>
+
+                    </div>
+
+
+                    <div class="blood-details">
+
+                        <h3>B+ Blood</h3>
+
+                        <p>
+                            📍 Hyderabad
+                        </p>
+
+                        <span class="availability">
+                            Available
+                        </span>
+
+                    </div>
+
+
+                    <div class="blood-units">
+
+                        <strong>3</strong>
+
+                        <span>
+                            Units Available
+                        </span>
+
+                    </div>
+
+
+                    <button class="request-button">
+                        Request Blood
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+
+        <p>
+            © 2026 BloodLink. Donate Blood. Save Lives.
+        </p>
+
+    </footer>
+
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
